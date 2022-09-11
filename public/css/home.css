@@ -1,0 +1,55 @@
+body {
+  background-image: url(/public/images/bg3.jpeg);
+  background-size: cover;
+  margin: 0px;
+  height: 100vh;
+  width: 100%;
+}
+
+h1 {
+  color: white;
+}
+
+.logoutButton {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+}
+
+.parent {
+  width: 100%;
+}
+
+.header {
+  text-align: center;
+}
+
+.table {
+  background-color: white;
+}
+.description {
+  width: 400px;
+}
+
+.input {
+  background-color: white;
+}
+
+.listNumber {
+  width: 5%;
+}
+
+.listDescription {
+  width: 25%;
+}
+
+.listDetail {
+  width: 50%;
+}
+
+.listActions {
+  width: 20%;
+}

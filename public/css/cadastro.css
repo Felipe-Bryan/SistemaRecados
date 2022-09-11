@@ -1,0 +1,41 @@
+body {
+  background-image: url(/public/images/bg3.jpeg);
+  background-size: cover;
+}
+
+.parent {
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  color: rgb(255, 255, 255);
+  text-align: center;
+}
+
+.login-text {
+  color: white;
+}
+
+.input-box {
+  width: 500px;
+  height: 30px;
+}
+
+.pass-text {
+  color: white;
+}
+
+.login-box-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.login-button {
+  width: 200px;
+  height: 25px;
+}

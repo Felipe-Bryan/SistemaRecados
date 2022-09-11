@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Recados - Login</title>
+    <link rel="stylesheet" href="/public/css/index.css" />
+  </head>
+  <body>
+    <div class="parent">
+      <form class="login-box" id="login-form">
+        <h1 class="title">Entrar no sistema de Recados</h1>
+        <br /><br />
+        <p class="login-text">Digite seu nome de usuário</p>
+        <input class="input-box" type="text" id="login" required />
+        <br />
+        <p class="pass-text">Digite sua senha</p>
+        <input class="input-box" type="password" id="password" required />
+        <br /><br />
+        <div class="mb-3 form-check checkBox">
+          <input type="checkbox" class="form-check-input" id="sessionCheck" />
+          <label class="form-check-label" for="sessionCheck">Permanecer logado</label>
+        </div>
+        <br />
+        <div class="login-box-buttons">
+          <button class="login-button" type="submit" id="btnLogin">Entrar</button>
+          <button class="login-button" type="submit">
+            <a href="/cadastro.html">Cadastre-se</a>
+          </button>
+        </div>
+      </form>
+    </div>
+    <script src="/public/js/index.js"></script>
+  </body>
+</html>
