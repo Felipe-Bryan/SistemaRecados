@@ -1,30 +1,42 @@
+// coletar informações da sessão
 let logged = sessionStorage.getItem('logged');
 const session = localStorage.getItem('session');
+// identificar os inputs
 let description = document.getElementById('descriptionInput');
 let detail = document.getElementById('detailInput');
+// botão salvar recado
 const btnSave = document.getElementById('saveButton');
+// array de usuarios cadastrados
 const users = JSON.parse(localStorage.getItem('usersStorage'));
+// array com os dados do usuário logado
 let data = JSON.parse(localStorage.getItem('loggedUser'));
 
+// função chamada para verificar estado de login e carregar dados do usuário ativo
 checklogged();
 
+//Criada função de logout
 function logout() {
+  // Definir posição do usuário ativo dentro do array de usuarios cadastrados
   let activeUserPosition;
   for (let i = 0; i < users.length; i++) {
     if (users[i].email === data.email) {
       activeUserPosition = i;
     }
   }
+  // salvar alterações feitas nos recados antes de sair
   users[activeUserPosition].recados = data.recados;
   localStorage.setItem('usersStorage', JSON.stringify(users));
 
+  // apagar os dados da sessão ativa
   sessionStorage.removeItem('logged');
   localStorage.removeItem('session');
   localStorage.removeItem('loggedUser');
 
+  // retornar a pagina inicial
   window.location.href = 'index.html';
 }
 
+// função replicada do index para verificar se o usuario está logado
 function checklogged() {
   if (session) {
     sessionStorage.setItem('logged', session);
@@ -36,6 +48,7 @@ function checklogged() {
     return;
   }
 
+  // carregar os recados do usuario dentro do array de usuarios cadastrados
   let activeUserPosition;
   for (let i = 0; i < users.length; i++) {
     if (users[i].email === data.email) {
@@ -51,6 +64,7 @@ btnSave.addEventListener('click', (e) => {
   newErrand();
 });
 
+// salvar novo recado
 function newErrand() {
   let errand = {
     id: data.recados.length + 1,
@@ -65,6 +79,7 @@ function newErrand() {
   localStorage.setItem('loggedUser', JSON.stringify(data));
 }
 
+// moldar tabela de acordo com os recados dentro do array de recados
 createTable = (recadosArray) => {
   //Pega corpo da tabela no html pelo DOM
   const table = document.getElementsByTagName('tbody')[0];
@@ -122,8 +137,10 @@ createTable = (recadosArray) => {
   });
 };
 
+// criar tabela caso o array de recados já tenha dados ao carregar a pagina
 createTable(data.recados);
 
+// função para remover recados
 remove = (id) => {
   //Criado novo array para conter os recados que nao serao deletados
   const newRecadosArray = [];
