@@ -18,24 +18,29 @@ checklogged();
 
 //Criada função de logout
 function logout() {
-  // Definir posição do usuário ativo dentro do array de usuarios cadastrados
-  let activeUserPosition;
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].email === data.email) {
-      activeUserPosition = i;
+  if (editOn) {
+    alert('Finalize a edição atual antes de continuar!');
+    return;
+  } else {
+    // Definir posição do usuário ativo dentro do array de usuarios cadastrados
+    let activeUserPosition;
+    for (let i = 0; i < users.length; i++) {
+      if (users[i].email === data.email) {
+        activeUserPosition = i;
+      }
     }
+    // salvar alterações feitas nos recados antes de sair
+    users[activeUserPosition].recados = data.recados;
+    localStorage.setItem('usersStorage', JSON.stringify(users));
+
+    // apagar os dados da sessão ativa
+    sessionStorage.removeItem('logged');
+    localStorage.removeItem('session');
+    localStorage.removeItem('loggedUser');
+
+    // retornar a pagina inicial
+    window.location.href = 'index.html';
   }
-  // salvar alterações feitas nos recados antes de sair
-  users[activeUserPosition].recados = data.recados;
-  localStorage.setItem('usersStorage', JSON.stringify(users));
-
-  // apagar os dados da sessão ativa
-  sessionStorage.removeItem('logged');
-  localStorage.removeItem('session');
-  localStorage.removeItem('loggedUser');
-
-  // retornar a pagina inicial
-  window.location.href = 'index.html';
 }
 
 // função replicada do index para verificar se o usuario está logado
@@ -67,16 +72,21 @@ btnSave.addEventListener('click', (e) => {
 
 // salvar novo recado
 function newErrand() {
-  let errand = {
-    id: data.recados.length + 1,
-    detail: detail.value,
-    description: description.value,
-  };
-  data.recados.push(errand);
-  createTable(data.recados);
-  description.value = '';
-  detail.value = '';
-  localStorage.setItem('loggedUser', JSON.stringify(data));
+  if (editOn) {
+    alert('Finalize a edição atual antes de continuar!');
+    return;
+  } else {
+    let errand = {
+      id: data.recados.length + 1,
+      detail: detail.value,
+      description: description.value,
+    };
+    data.recados.push(errand);
+    createTable(data.recados);
+    description.value = '';
+    detail.value = '';
+    localStorage.setItem('loggedUser', JSON.stringify(data));
+  }
 }
 
 // moldar tabela de acordo com os recados dentro do array de recados
@@ -151,17 +161,22 @@ createTable(data.recados);
 
 // função para remover recados
 remove = (id) => {
-  //Criado novo array para conter os recados que nao serao deletados
-  const newRecadosArray = [];
+  if (editOn) {
+    alert('Finalize a edição atual antes de continuar!');
+    return;
+  } else {
+    //Criado novo array para conter os recados que nao serao deletados
+    const newRecadosArray = [];
 
-  //Validacao para que quando recado nao tiver id igual ao id recebido no parametro da funcao,
-  //seja adicionado no novo array de recados
-  data.recados.forEach((recado) => {
-    if (recado.id !== id) {
-      recado.id = newRecadosArray.length + 1;
-      newRecadosArray.push(recado);
-    }
-  });
+    //Validacao para que quando recado nao tiver id igual ao id recebido no parametro da funcao,
+    //seja adicionado no novo array de recados
+    data.recados.forEach((recado) => {
+      if (recado.id !== id) {
+        recado.id = newRecadosArray.length + 1;
+        newRecadosArray.push(recado);
+      }
+    });
+  }
 
   //Alterado array de recados para se tornar o array novo sem o recado deletado
   data.recados = newRecadosArray;
@@ -172,51 +187,53 @@ remove = (id) => {
 };
 
 function edit(id) {
-  // if(editOn){
-  //   alert('Finalize a edição atual antes de continuar!')
-  //   return;
-  // } else {}
-  let editLineId = `line-${id}`;
-  let editLine = document.getElementById(editLineId);
-  let values = document.getElementsByClassName(editLineId);
-  let editedId = values[0].innerHTML;
-  let editedDescription = values[1].innerHTML;
-  let editedDetail = values[2].innerHTML;
-  editLine.innerHTML = '';
+  if (editOn) {
+    alert('Finalize a edição atual antes de continuar!');
+    return;
+  } else {
+    editOn = true;
+    let editLineId = `line-${id}`;
+    let editLine = document.getElementById(editLineId);
+    let values = document.getElementsByClassName(editLineId);
+    let editedId = values[0].innerHTML;
+    let editedDescription = values[1].innerHTML;
+    let editedDetail = values[2].innerHTML;
+    editLine.innerHTML = '';
 
-  const idCel = document.createElement('td');
-  idCel.innerText = id;
-  editLine.appendChild(idCel);
+    const idCel = document.createElement('td');
+    idCel.innerText = id;
+    editLine.appendChild(idCel);
 
-  const descriptionCel = document.createElement('td');
-  const descriptionIpt = document.createElement('input');
-  descriptionIpt.id = 'editDescription';
-  descriptionIpt.type = 'text';
-  descriptionIpt.value = editedDescription;
-  descriptionIpt.placeholder = 'Digite a nova descrição';
-  descriptionCel.appendChild(descriptionIpt);
-  editLine.appendChild(descriptionCel);
+    const descriptionCel = document.createElement('td');
+    const descriptionIpt = document.createElement('input');
+    descriptionIpt.id = 'editDescription';
+    descriptionIpt.type = 'text';
+    descriptionIpt.value = editedDescription;
+    descriptionIpt.placeholder = 'Digite a nova descrição';
+    descriptionCel.appendChild(descriptionIpt);
+    editLine.appendChild(descriptionCel);
 
-  const detailCel = document.createElement('td');
-  const detailIpt = document.createElement('input');
-  detailIpt.id = 'editDetail';
-  detailIpt.type = 'text';
-  detailIpt.value = editedDetail;
-  detailIpt.placeholder = 'Digite o novo detalhamento';
-  detailCel.appendChild(detailIpt);
-  editLine.appendChild(detailCel);
+    const detailCel = document.createElement('td');
+    const detailIpt = document.createElement('input');
+    detailIpt.id = 'editDetail';
+    detailIpt.type = 'text';
+    detailIpt.value = editedDetail;
+    detailIpt.placeholder = 'Digite o novo detalhamento';
+    detailCel.appendChild(detailIpt);
+    editLine.appendChild(detailCel);
 
-  const btnCel = document.createElement('td');
-  const btnSave = document.createElement('button');
-  btnSave.innerText = 'Salvar';
-  btnSave.classList = ['btn btn-primary'];
-  btnSave.addEventListener('click', () => {
-    saveEdit(id);
-  });
-  btnCel.appendChild(btnSave);
-  editLine.appendChild(btnCel);
+    const btnCel = document.createElement('td');
+    const btnSave = document.createElement('button');
+    btnSave.innerText = 'Salvar';
+    btnSave.classList = ['btn btn-primary'];
+    btnSave.addEventListener('click', () => {
+      saveEdit(id);
+    });
+    btnCel.appendChild(btnSave);
+    editLine.appendChild(btnCel);
 
-  descriptionIpt.focus();
+    descriptionIpt.focus();
+  }
 }
 
 function saveEdit(id) {
@@ -238,7 +255,7 @@ function saveEdit(id) {
       data.recados[id - 1] = recado;
     }
   });
-
+  editOn = false;
   localStorage.setItem('loggedUser', JSON.stringify(data));
   createTable(data.recados);
 }
