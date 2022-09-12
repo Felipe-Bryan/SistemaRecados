@@ -240,21 +240,28 @@ function saveEdit(id) {
   let editLine = document.getElementById(editLineId);
   let editDescription = document.getElementById('editDescription');
   let editDetail = document.getElementById('editDetail');
-  let position;
 
-  let editedErrand = {
-    id: id,
-    detail: editDetail.value,
-    description: editDescription.value,
-  };
+  if ((editDescription = '' || null)) {
+    alert('Descrição não pode estar vazia');
+    editDescription.focus();
+  } else if ((editDetail = '' || null)) {
+    alert('Detalhamento não pose estar vazio');
+    editDetail.focus();
+  } else {
+    let editedErrand = {
+      id: id,
+      detail: editDetail.value,
+      description: editDescription.value,
+    };
 
-  data.recados.forEach((recado) => {
-    if (recado.id == id) {
-      recado = editedErrand;
-      data.recados[id - 1] = recado;
-    }
-  });
-  editOn = false;
-  localStorage.setItem('loggedUser', JSON.stringify(data));
-  createTable(data.recados);
+    data.recados.forEach((recado) => {
+      if (recado.id == id) {
+        recado = editedErrand;
+        data.recados[id - 1] = recado;
+      }
+    });
+    editOn = false;
+    localStorage.setItem('loggedUser', JSON.stringify(data));
+    createTable(data.recados);
+  }
 }
