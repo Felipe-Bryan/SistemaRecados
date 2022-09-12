@@ -161,13 +161,12 @@ createTable(data.recados);
 
 // função para remover recados
 remove = (id) => {
+  //Criado novo array para conter os recados que nao serao deletados
+  const newRecadosArray = [];
   if (editOn) {
     alert('Finalize a edição atual antes de continuar!');
     return;
   } else {
-    //Criado novo array para conter os recados que nao serao deletados
-    const newRecadosArray = [];
-
     //Validacao para que quando recado nao tiver id igual ao id recebido no parametro da funcao,
     //seja adicionado no novo array de recados
     data.recados.forEach((recado) => {
