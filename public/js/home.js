@@ -10,6 +10,8 @@ const btnSave = document.getElementById('saveButton');
 const users = JSON.parse(localStorage.getItem('usersStorage'));
 // array com os dados do usuário logado
 let data = JSON.parse(localStorage.getItem('loggedUser'));
+// flag para começar uma edição de recado
+let editOn = false;
 
 // função chamada para verificar estado de login e carregar dados do usuário ativo
 checklogged();
@@ -56,7 +58,6 @@ function checklogged() {
     }
   }
   data.recados = users[activeUserPosition].recados;
-  console.log(data);
 }
 
 btnSave.addEventListener('click', (e) => {
@@ -75,7 +76,6 @@ function newErrand() {
   createTable(data.recados);
   description.value = '';
   detail.value = '';
-  console.log(data);
   localStorage.setItem('loggedUser', JSON.stringify(data));
 }
 
@@ -90,32 +90,41 @@ createTable = (recadosArray) => {
   recadosArray.forEach((recado) => {
     //Criada nova linha
     const tr = document.createElement('tr');
+    tr.id = `line-${recado.id}`;
 
     //Criada nova celula para id do recado e adicionado id no texto da celula
     const idCel = document.createElement('td');
+    idCel.classList = [`line-${recado.id}`];
     idCel.innerText = recado.id;
 
     //Criada nova celula para descrição do recado e adicionado no texto da celula
     const descriptionCel = document.createElement('td');
+    descriptionCel.classList = [`line-${recado.id}`];
     descriptionCel.innerText = recado.description;
 
     //Criada nova celula para o detalhamento do recado e adicionado no texto da celula
     const detailCel = document.createElement('td');
+    detailCel.classList = [`line-${recado.id}`];
     detailCel.innerHTML = recado.detail;
 
     //Criada nova celula para adicionar botões de editar e remover
     const btnCel = document.createElement('td');
+    btnCel.classList = [`line-${recado.id}`];
 
     // Criado botao de editar
     const btnEdit = document.createElement('button');
     btnEdit.innerText = 'Edit';
     btnEdit.classList = ['btn btn-success'];
+    //adicionado evento de click no botao "edit" para executar a funcao de editar recado
+    //criada mais abaixo recebendo o id do recado como parametro na criacao do botao
+    btnEdit.addEventListener('click', () => {
+      edit(recado.id);
+    });
 
     //Criado botao de remover recado com texto Remove dentro
     const btnRemove = document.createElement('button');
     btnRemove.innerText = 'Remove';
     btnRemove.classList = ['btn btn-danger'];
-
     //adicionado evento de click no botao "remove" para executar a funcao de remover recado
     //criada mais abaixo recebendo o id do recado como parametro na criacao do botao
     btnRemove.addEventListener('click', () => {
@@ -161,3 +170,75 @@ remove = (id) => {
   createTable(data.recados);
   localStorage.setItem('loggedUser', JSON.stringify(data));
 };
+
+function edit(id) {
+  // if(editOn){
+  //   alert('Finalize a edição atual antes de continuar!')
+  //   return;
+  // } else {}
+  let editLineId = `line-${id}`;
+  let editLine = document.getElementById(editLineId);
+  let values = document.getElementsByClassName(editLineId);
+  let editedId = values[0].innerHTML;
+  let editedDescription = values[1].innerHTML;
+  let editedDetail = values[2].innerHTML;
+  editLine.innerHTML = '';
+
+  const idCel = document.createElement('td');
+  idCel.innerText = id;
+  editLine.appendChild(idCel);
+
+  const descriptionCel = document.createElement('td');
+  const descriptionIpt = document.createElement('input');
+  descriptionIpt.id = 'editDescription';
+  descriptionIpt.type = 'text';
+  descriptionIpt.value = editedDescription;
+  descriptionIpt.placeholder = 'Digite a nova descrição';
+  descriptionCel.appendChild(descriptionIpt);
+  editLine.appendChild(descriptionCel);
+
+  const detailCel = document.createElement('td');
+  const detailIpt = document.createElement('input');
+  detailIpt.id = 'editDetail';
+  detailIpt.type = 'text';
+  detailIpt.value = editedDetail;
+  detailIpt.placeholder = 'Digite o novo detalhamento';
+  detailCel.appendChild(detailIpt);
+  editLine.appendChild(detailCel);
+
+  const btnCel = document.createElement('td');
+  const btnSave = document.createElement('button');
+  btnSave.innerText = 'Salvar';
+  btnSave.classList = ['btn btn-primary'];
+  btnSave.addEventListener('click', () => {
+    saveEdit(id);
+  });
+  btnCel.appendChild(btnSave);
+  editLine.appendChild(btnCel);
+
+  descriptionIpt.focus();
+}
+
+function saveEdit(id) {
+  let editLineId = `line-${id}`;
+  let editLine = document.getElementById(editLineId);
+  let editDescription = document.getElementById('editDescription');
+  let editDetail = document.getElementById('editDetail');
+  let position;
+
+  let editedErrand = {
+    id: id,
+    detail: editDetail.value,
+    description: editDescription.value,
+  };
+
+  data.recados.forEach((recado) => {
+    if (recado.id == id) {
+      recado = editedErrand;
+      data.recados[id - 1] = recado;
+    }
+  });
+
+  localStorage.setItem('loggedUser', JSON.stringify(data));
+  createTable(data.recados);
+}
