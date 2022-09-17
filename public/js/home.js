@@ -81,6 +81,16 @@ function newErrand() {
       detail: detail.value,
       description: description.value,
     };
+
+    if(errand.detail == ''){
+      alert('Detalhamento não pode estar vazio!');
+      detail.focus;
+      return;
+    } else if(errand.description == ''){
+      alert('Descrição não pode estar vazia!');
+      description.focus;
+      return;
+    }
     data.recados.push(errand);
     createTable(data.recados);
     description.value = '';
