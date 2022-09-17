@@ -151,7 +151,7 @@ createTable = (recadosArray) => {
     tr.appendChild(detailCel);
     tr.appendChild(btnCel);
 
-    //adicinada linha na tabela dentro do html
+    //adicionada linha na tabela dentro do html
     table.appendChild(tr);
   });
 };
@@ -165,6 +165,10 @@ remove = (id) => {
   const newRecadosArray = [];
   if (editOn) {
     alert('Finalize a edição atual antes de continuar!');
+    return;
+  } 
+  let confirmation = confirm('Tem certeza que deseja remover o recado?')
+  if (!confirmation){
     return;
   } else {
     //Validacao para que quando recado nao tiver id igual ao id recebido no parametro da funcao,
