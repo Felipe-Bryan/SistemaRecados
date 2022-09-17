@@ -238,22 +238,27 @@ function edit(id) {
 function saveEdit(id) {
   let editLineId = `line-${id}`;
   let editLine = document.getElementById(editLineId);
-  let editDescription = document.getElementById('editDescription');
-  let editDetail = document.getElementById('editDetail');
+  let editDescription = document.getElementById('editDescription').value
+  let editDetail = document.getElementById('editDetail').value
 
-  if ((editDescription = '' || null)) {
+  console.log(editDescription)
+  console.log(editDetail)
+
+  let editedErrand = {
+    id: id,
+    detail: editDetail,
+    description: editDescription,
+  };
+
+  if (editDescription = ''){
     alert('Descrição não pode estar vazia');
     editDescription.focus();
-  } else if ((editDetail = '' || null)) {
+    return;
+  } else if (editDetail = '') {
     alert('Detalhamento não pose estar vazio');
     editDetail.focus();
-  } else {
-    let editedErrand = {
-      id: id,
-      detail: editDetail.value,
-      description: editDescription.value,
-    };
-
+    return;
+  }
     data.recados.forEach((recado) => {
       if (recado.id == id) {
         recado = editedErrand;
@@ -264,4 +269,3 @@ function saveEdit(id) {
     localStorage.setItem('loggedUser', JSON.stringify(data));
     createTable(data.recados);
   }
-}
