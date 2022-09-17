@@ -263,16 +263,7 @@ function saveEdit(id) {
     detail: editDetail,
     description: editDescription,
   };
-
-  if (editDescription = ''){
-    alert('Descrição não pode estar vazia');
-    editDescription.focus();
-    return;
-  } else if (editDetail = '') {
-    alert('Detalhamento não pose estar vazio');
-    editDetail.focus();
-    return;
-  }
+  
     data.recados.forEach((recado) => {
       if (recado.id == id) {
         recado = editedErrand;
