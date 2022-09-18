@@ -53,3 +53,7 @@ h1 {
 .listActions {
   width: 20%;
 }
+
+.btnRemove {
+  margin-left: 10px;
+}

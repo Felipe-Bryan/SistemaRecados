@@ -82,11 +82,11 @@ function newErrand() {
       description: description.value,
     };
 
-    if(errand.detail == ''){
+    if (errand.detail == '') {
       alert('Detalhamento não pode estar vazio!');
       detail.focus;
       return;
-    } else if(errand.description == ''){
+    } else if (errand.description == '') {
       alert('Descrição não pode estar vazia!');
       description.focus;
       return;
@@ -144,7 +144,7 @@ createTable = (recadosArray) => {
     //Criado botao de remover recado com texto Remove dentro
     const btnRemove = document.createElement('button');
     btnRemove.innerText = 'Remove';
-    btnRemove.classList = ['btn btn-danger'];
+    btnRemove.classList = ['btn btn-danger btnRemove'];
     //adicionado evento de click no botao "remove" para executar a funcao de remover recado
     //criada mais abaixo recebendo o id do recado como parametro na criacao do botao
     btnRemove.addEventListener('click', () => {
@@ -176,9 +176,9 @@ remove = (id) => {
   if (editOn) {
     alert('Finalize a edição atual antes de continuar!');
     return;
-  } 
-  let confirmation = confirm('Tem certeza que deseja remover o recado?')
-  if (!confirmation){
+  }
+  let confirmation = confirm('Tem certeza que deseja remover o recado?');
+  if (!confirmation) {
     return;
   } else {
     //Validacao para que quando recado nao tiver id igual ao id recebido no parametro da funcao,
@@ -252,25 +252,25 @@ function edit(id) {
 function saveEdit(id) {
   let editLineId = `line-${id}`;
   let editLine = document.getElementById(editLineId);
-  let editDescription = document.getElementById('editDescription').value
-  let editDetail = document.getElementById('editDetail').value
+  let editDescription = document.getElementById('editDescription').value;
+  let editDetail = document.getElementById('editDetail').value;
 
-  console.log(editDescription)
-  console.log(editDetail)
+  console.log(editDescription);
+  console.log(editDetail);
 
   let editedErrand = {
     id: id,
     detail: editDetail,
     description: editDescription,
   };
-  
-    data.recados.forEach((recado) => {
-      if (recado.id == id) {
-        recado = editedErrand;
-        data.recados[id - 1] = recado;
-      }
-    });
-    editOn = false;
-    localStorage.setItem('loggedUser', JSON.stringify(data));
-    createTable(data.recados);
-  }
+
+  data.recados.forEach((recado) => {
+    if (recado.id == id) {
+      recado = editedErrand;
+      data.recados[id - 1] = recado;
+    }
+  });
+  editOn = false;
+  localStorage.setItem('loggedUser', JSON.stringify(data));
+  createTable(data.recados);
+}
