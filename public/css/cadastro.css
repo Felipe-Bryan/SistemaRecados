@@ -41,3 +41,11 @@ body {
   width: 200px;
   height: 25px;
 }
+
+.grow:hover {
+  -webkit-transform: scale(1.15);
+  -ms-transform: scale(1.15);
+  transform: scale(1.15);
+  cursor: pointer;
+  transition: 0.3s;
+}

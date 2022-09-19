@@ -57,3 +57,11 @@ h1 {
 .btnRemove {
   margin-left: 10px;
 }
+
+.grow:hover {
+  -webkit-transform: scale(1.15);
+  -ms-transform: scale(1.15);
+  transform: scale(1.15);
+  cursor: pointer;
+  transition: 0.3s;
+}
