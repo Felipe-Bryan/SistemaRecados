@@ -15,7 +15,7 @@ let editOn = false;
 
 // função chamada para verificar estado de login e carregar dados do usuário ativo
 checklogged();
-alert('Logado com sucesso!\nPara garantir que seus dados sejam salvos \nnão se esqueça de fazer o logout para fechar a página ');
+alert('Logado com sucesso!\nPara garantir que seus dados sejam salvos \nnão se esqueça de fazer o logout antes de fechar a página ');
 
 //Criada função de logout
 function logout() {
